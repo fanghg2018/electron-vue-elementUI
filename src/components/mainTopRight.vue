@@ -61,11 +61,11 @@ export default {
     this.$ipcRenderer.on('alwaysOnTop', (event, data) => {
       switch (data) {
         case 'yes':
-          this.top_title = '置顶'
+          this.top_title = '取消置顶'
           this.top_icon = require('../assets/img/取消置顶.png')
           break
         case 'no':
-          this.top_title = '取消置顶'
+          this.top_title = '置顶'
           this.top_icon = require('../assets/img/置顶.png')
           break
       }
@@ -137,10 +137,10 @@ export default {
   }
 
   .top_btn:hover {
-    background-image: url("../assets/img/置顶-hover.png") !important;
+    background-image: url("../assets/img/取消置顶-hover.png") !important;
   }
    .top_btn1:hover {
-    background-image: url("../assets/img/取消置顶-hover.png") !important;
+    background-image: url("../assets/img/置顶-hover.png") !important;
   }
     .max_btn:hover {
     background-image: url("../assets/img/最大化-hover.png") !important;
