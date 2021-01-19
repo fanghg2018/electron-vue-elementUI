@@ -133,7 +133,7 @@ export default {
     height: 32px;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 35%;
+    background-size: 32%;
   }
 
   .top_btn:hover {

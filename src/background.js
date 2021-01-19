@@ -18,8 +18,8 @@ async function createWindow () {
   win = new BrowserWindow({
     width: 800,
     height: 600,
-    minWidth: 700,
-    minHeight: 500,
+    minWidth: 800,
+    minHeight: 600,
     frame: false,
     webPreferences: {
       // Use pluginOptions.nodeIntegration, leave this alone
@@ -99,6 +99,21 @@ app.on('ready', async () => {
   tray.setToolTip('测试气泡提示文字')
   tray.setContextMenu(contextMenu)
 })
+
+// 限制只能开启一个应用(4.0以上版本)
+const gotTheLock = app.requestSingleInstanceLock()
+if (!gotTheLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // 当运行第二个实例时,将会聚焦到mainWindow这个窗口
+    if (win) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+      win.show()
+    }
+  })
+}
 
 // 监听窗口变化  实现修改最大化和还原的图标
 app.on('resize', () => {
