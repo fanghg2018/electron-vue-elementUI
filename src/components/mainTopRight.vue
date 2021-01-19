@@ -129,7 +129,7 @@ export default {
   .max_btn,
   .max_btn1,
   .close_btn {
-    width: 37px;
+    width: 40px;
     height: 32px;
     background-position: center;
     background-repeat: no-repeat;
