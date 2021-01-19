@@ -147,7 +147,7 @@ ipcMain.on('window-max', () => {
     BrowserWindow.getFocusedWindow().webContents.send('restoreMaximize', 'restore')
   } else {
     win.maximize()
-    // 主进程 个渲染进程 发送数据
+    // 主进程 向渲染进程 发送数据
     BrowserWindow.getFocusedWindow().webContents.send('restoreMaximize', 'maximize')
   }
 })
