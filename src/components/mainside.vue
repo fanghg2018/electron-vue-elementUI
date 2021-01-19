@@ -20,7 +20,7 @@
       >
       <div class="top">
         <el-menu-item index="/index">
-          <i class="el-icon-location"></i>
+          <i class="el-icon-s-home"></i>
           <span slot="title">主页</span>
         </el-menu-item>
         <el-menu-item index="/list">

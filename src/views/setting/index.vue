@@ -27,7 +27,7 @@ export default {
 
 <style  lang="scss">
 .el-tabs{
-      padding: 0px 20px 20px 20px;
+      padding: 20px;
       -webkit-user-select: none; //禁用文本选择
     }
 

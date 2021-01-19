@@ -129,11 +129,11 @@ export default {
   .max_btn,
   .max_btn1,
   .close_btn {
-    width: 45px;
+    width: 37px;
     height: 32px;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 30%;
+    background-size: 35%;
   }
 
   .top_btn:hover {
