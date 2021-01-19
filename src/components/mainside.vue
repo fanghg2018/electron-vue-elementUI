@@ -1,6 +1,5 @@
 <template>
   <el-row class="tac">
-    <!-- side头部 -->
     <el-col >
       <div class="login-image">
         <div class="block" >
@@ -12,33 +11,33 @@
         </div>
       </div>
       <el-menu
-        default-active="1"
+        default-active="/index"
         class="el-menu-vertical-demo"
+        @select="handleSelect"
         background-color="#f2f2f1"
         text-color="#0b0b0b"
         active-text-color="#d20a0a"
       >
       <div class="top">
-        <el-menu-item index="1">
+        <el-menu-item index="/index">
           <i class="el-icon-location"></i>
-          <span slot="title">导航一</span>
+          <span slot="title">主页</span>
         </el-menu-item>
-        <el-menu-item index="2">
+        <el-menu-item index="/list">
           <i class="el-icon-menu"></i>
-          <span slot="title">导航二</span>
+          <span slot="title">用户管理</span>
         </el-menu-item>
-        <el-menu-item index="3">
+        <el-menu-item index="/msgs">
           <i class="el-icon-document"></i>
-          <span slot="title">导航三</span>
+          <span slot="title">消息中心</span>
         </el-menu-item>
       </div>
-        <el-menu-item index="4" class="setting">
+        <el-menu-item index="/setting" class="setting">
           <i class="el-icon-setting"></i>
           <span slot="title">设置</span>
         </el-menu-item>
       </el-menu>
     </el-col>
-<!-- side底部 -->
 
   </el-row>
 </template>
@@ -48,7 +47,14 @@ export default {
   name: 'mainSide',
   data () {
     return {
-      url: require('../assets/img/logo.png')
+      url: require('../assets/img/logo.png'),
+      activeIndex: this.$route.path
+    }
+  },
+  methods: {
+    handleSelect (key, keyPath) {
+      // console.log(key, keyPath)
+      this.$router.push(key)
     }
   }
 }
@@ -72,6 +78,7 @@ export default {
   display:flex;
   flex-direction: column ;
   justify-content: flex-start;
+  -webkit-user-select: none; //禁用文本选择
 }
 .top {
   flex: 1;
