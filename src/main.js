@@ -5,9 +5,13 @@ import store from './store'
 import './plugins/element.js'
 import './assets/css/global.css'
 
+import { shell } from 'electron'
+const remote = require('electron').remote
+
 Vue.config.productionTip = false
-const { ipcRenderer } = require('electron')
-Vue.prototype.$ipcRenderer = ipcRenderer
+
+Vue.prototype.$shell = shell
+Vue.prototype.$win = remote.getCurrentWindow()
 
 new Vue({
   router,

@@ -8,7 +8,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 
 let tray = null
 let win
-// 必须先注册Scheme，然后才能准备好应用程序
+// 注册自定义的请求协议
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])

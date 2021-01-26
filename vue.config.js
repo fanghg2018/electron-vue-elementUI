@@ -1,4 +1,18 @@
+const path = require('path')
+function resolve (dir) {
+  return path.join(__dirname, dir)
+}
 module.exports = {
+  // 配置路径别名注意，引用别名时如果是HTML中的路径，则需要在别名前面加符号~
+  chainWebpack: config => {
+    config.resolve.alias
+      .set('@', resolve('src'))
+      .set('assets', resolve('src/assets'))
+      .set('components', resolve('src/components'))
+      .set('views', resolve('src/views'))
+    // .set("base", resolve("baseConfig"))
+    // .set("public", resolve("public"));
+  },
   pluginOptions: {
     electronBuilder: {
       nodeIntegration: true,
