@@ -1,20 +1,20 @@
 /* eslint-disable no-undef */
 'use strict'
 
-import { app, protocol, BrowserWindow, ipcMain, Tray, Menu } from 'electron'
+import { app, protocol, BrowserWindow, Tray, Menu } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 // import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 let tray = null
 let win
-// Scheme must be registered before the app is ready
+// 必须先注册Scheme，然后才能准备好应用程序
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true } }
 ])
 
 async function createWindow () {
-  // Create the browser window.
+// 创建窗口。
   win = new BrowserWindow({
     width: 800,
     height: 600,
@@ -22,41 +22,39 @@ async function createWindow () {
     minHeight: 600,
     frame: false,
     webPreferences: {
-      // Use pluginOptions.nodeIntegration, leave this alone
-      // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION
     }
   })
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
-    // Load the url of the dev server if in development mode
+    // 如果处于开发模式，则加载开发服务器的url
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     if (!process.env.IS_TEST) win.webContents.openDevTools()
   } else {
     createProtocol('app')
-    // Load the index.html when not in development
+    // 不是开发模式时加载index.html
     win.loadURL('app://./index.html')
   }
 }
 
-// Quit when all windows are closed.
+// 关闭所有窗口后退出。
 app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
+// 在macOS上，应用程序及其菜单栏很常见
+// 保持活动状态，直到用户使用Cmd + Q明确退出为止
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
+// 在macOS上，通常会在应用程序重新创建窗口时
+// 单击dock图标，没有其他窗口打开。
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
+// 当Electron完成时将调用此方法
+// 初始化并准备创建浏览器窗口。
+// 有些API仅在此事件发生后才能使用。
 app.on('ready', async () => {
   // if (isDevelopment && !process.env.IS_TEST) {
   //   // Install Vue Devtools
@@ -115,48 +113,7 @@ if (!gotTheLock) {
   })
 }
 
-// 监听窗口变化  实现修改最大化和还原的图标
-app.on('resize', () => {
-  if (!win.isMaximized()) {
-    BrowserWindow.getFocusedWindow().webContents.send('restoreMaximize', 'restore')
-  } else {
-    BrowserWindow.getFocusedWindow().webContents.send('restoreMaximize', 'maximize')
-  }
-})
-// 置顶
-ipcMain.on('window-top', () => {
-  if (win.isAlwaysOnTop()) {
-    win.setAlwaysOnTop(false)
-    BrowserWindow.getFocusedWindow().webContents.send('alwaysOnTop', 'no')
-  } else {
-    win.setAlwaysOnTop(true)
-    BrowserWindow.getFocusedWindow().webContents.send('alwaysOnTop', 'yes')
-  }
-})
-
-// 最小化
-ipcMain.on('window-min', () => {
-  win.minimize()
-})
-
-// 最大化
-ipcMain.on('window-max', () => {
-  if (win.isMaximized()) {
-    win.restore()
-    // 主进程 个渲染进程 发送数据
-    BrowserWindow.getFocusedWindow().webContents.send('restoreMaximize', 'restore')
-  } else {
-    win.maximize()
-    // 主进程 向渲染进程 发送数据
-    BrowserWindow.getFocusedWindow().webContents.send('restoreMaximize', 'maximize')
-  }
-})
-// 关闭，隐藏
-ipcMain.on('window-close', () => {
-  win.hide()
-})
-
-// Exit cleanly on request from parent process in development mode.
+// 在开发模式下，应主进程的要求完全退出。
 if (isDevelopment) {
   if (process.platform === 'win32') {
     process.on('message', (data) => {
