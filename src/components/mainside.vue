@@ -32,7 +32,7 @@
           <span slot="title">收藏</span>
         </el-menu-item>
       </div>
-        <el-menu-item  class="setting">
+        <el-menu-item index="/setting" class="setting">
           <i class="el-icon-setting"></i>
           <span slot="title" >设置</span>
         </el-menu-item>

@@ -32,9 +32,6 @@ export default {
       // console.log(key, keyPath)
       this.$router.push(key)
     },
-    toGithub () {
-      this.$shell.openExternal('https://github.com/seolhw/youdao')
-    },
     maximize () {
       if (this.$win.isMaximized()) {
         this.$win.unmaximize()
