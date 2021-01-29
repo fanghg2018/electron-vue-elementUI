@@ -19,22 +19,22 @@
         active-text-color="#d20a0a"
       >
       <div class="top">
-        <el-menu-item index="/index">
+        <el-menu-item index="/">
           <i class="el-icon-s-home"></i>
           <span slot="title">主页</span>
         </el-menu-item>
-        <el-menu-item index="/list">
+        <el-menu-item index="/history">
           <i class="el-icon-menu"></i>
-          <span slot="title">用户管理</span>
+          <span slot="title">历史记录</span>
         </el-menu-item>
-        <el-menu-item index="/msgs">
+        <el-menu-item index="/collect">
           <i class="el-icon-document"></i>
-          <span slot="title">消息中心</span>
+          <span slot="title">收藏</span>
         </el-menu-item>
       </div>
-        <el-menu-item index="/setting" class="setting">
+        <el-menu-item  class="setting">
           <i class="el-icon-setting"></i>
-          <span slot="title">设置</span>
+          <span slot="title" >设置</span>
         </el-menu-item>
       </el-menu>
     </el-col>
@@ -47,7 +47,7 @@ export default {
   name: 'mainSide',
   data () {
     return {
-      url: require('../assets/img/logo.png'),
+      url: require('../assets/img/youdao.jpg'),
       activeIndex: this.$route.path
     }
   },
@@ -55,6 +55,22 @@ export default {
     handleSelect (key, keyPath) {
       // console.log(key, keyPath)
       this.$router.push(key)
+    },
+    toGithub () {
+      this.$shell.openExternal('https://github.com/seolhw/youdao')
+    },
+    maximize () {
+      if (this.$win.isMaximized()) {
+        this.$win.unmaximize()
+      } else {
+        this.$win.maximize()
+      }
+    },
+    minimize () {
+      this.$win.minimize()
+    },
+    close () {
+      this.$win.hide()
     }
   }
 }
@@ -99,6 +115,6 @@ export default {
   background: #f1e7e6 !important;
 }
 .el-menu-vertical-demo {
-  height: calc(100vh - 123px)
+  height: calc(100vh - 125px)
 }
 </style>

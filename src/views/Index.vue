@@ -20,7 +20,7 @@ export default {
   position: relative;
   .top{
     position: absolute;
-    top: -40px;
+    top: -20px;
     font-size: 16px;
   }
 }

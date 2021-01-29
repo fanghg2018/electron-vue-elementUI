@@ -1,35 +1,21 @@
 <template>
   <div class="top_nav">
-    <button
-      v-if="top_title === '取消置顶'"
-      class="top_btn"
-      :title="top_title"
-      :style="{ backgroundImage: 'url(' + top_icon + ')' }"
-      @click="onTopping"
-    ></button>
-      <button
-      v-if="top_title === '置顶'"
-      class="top_btn1"
-      :title="top_title"
-      :style="{ backgroundImage: 'url(' + top_icon + ')' }"
-      @click="onTopping"
-    ></button>
-    <button class="min_btn" title="最小化" @click="onMinimize"></button>
+    <button class="min_btn" title="最小化" @click="minimize"></button>
     <button
       v-if="max_title === '最大化'"
       class="max_btn"
       :title="max_title"
       :style="{ backgroundImage: 'url(' + max_icon + ')' }"
-      @click="onMaximize"
+      @click="maximize"
     ></button>
     <button
       v-if="max_title === '向下还原'"
       class="max_btn1"
       :title="max_title"
       :style="{ backgroundImage: 'url(' + max_icon + ')' }"
-      @click="onMaximize"
+      @click="maximize"
     ></button>
-    <button class="close_btn" title="关闭" @click="onClose"></button>
+    <button class="close_btn" title="关闭" @click="close"></button>
   </div>
 </template>
 
@@ -37,57 +23,34 @@
 export default {
   data () {
     return {
-      top_title: '置顶',
-      top_icon: require('../assets/img/取消置顶.png'),
       max_title: '最大化',
-      max_icon: require('../assets/img/最大化.png')
+      max_icon: require('../assets/img/c4.png')
     }
   },
-  mounted () {
-    // 监听窗口变化
-    this.$ipcRenderer.on('restoreMaximize', (event, data) => {
-      switch (data) {
-        case 'restore':
-          this.max_title = '最大化'
-          this.max_icon = require('../assets/img/最大化.png')
-          break
-        case 'maximize':
-          this.max_title = '向下还原'
-          this.max_icon = require('../assets/img/还原.png')
-          break
-      }
-    })
-
-    this.$ipcRenderer.on('alwaysOnTop', (event, data) => {
-      switch (data) {
-        case 'yes':
-          this.top_title = '取消置顶'
-          this.top_icon = require('../assets/img/取消置顶.png')
-          break
-        case 'no':
-          this.top_title = '置顶'
-          this.top_icon = require('../assets/img/置顶.png')
-          break
-      }
-    })
-  },
   methods: {
-    // 置顶功能
-    onTopping () {
-      this.$ipcRenderer.send('window-top')
+    handleSelect (key, keyPath) {
+      // console.log(key, keyPath)
+      this.$router.push(key)
     },
-
-    // 最小化
-    onMinimize () {
-      this.$ipcRenderer.send('window-min')
+    toGithub () {
+      this.$shell.openExternal('https://github.com/seolhw/youdao')
     },
-    // 最大化
-    onMaximize () {
-      this.$ipcRenderer.send('window-max')
+    maximize () {
+      if (this.$win.isMaximized()) {
+        this.$win.unmaximize()
+        this.max_title = '最大化'
+        this.max_icon = require('../assets/img/c4.png')
+      } else {
+        this.$win.maximize()
+        this.max_title = '向下还原'
+        this.max_icon = require('../assets/img/c2.png')
+      }
     },
-    // 关闭
-    onClose () {
-      this.$ipcRenderer.send('window-close')
+    minimize () {
+      this.$win.minimize()
+    },
+    close () {
+      this.$win.hide()
     }
   }
 }
@@ -123,8 +86,6 @@ export default {
     border: none;
   }
 
-  .top_btn,
-  .top_btn1,
   .min_btn,
   .max_btn,
   .max_btn1,
@@ -136,33 +97,27 @@ export default {
     background-size: 32%;
   }
 
-  .top_btn:hover {
-    background-image: url("../assets/img/取消置顶-hover.png") !important;
-  }
-   .top_btn1:hover {
-    background-image: url("../assets/img/置顶-hover.png") !important;
-  }
-    .max_btn:hover {
-    background-image: url("../assets/img/最大化-hover.png") !important;
+   .max_btn:hover {
+    background-image: url("../assets/img/c44.png") !important;
   }
     .max_btn1:hover {
-    background-image: url("../assets/img/还原-hover.png") !important;
+    background-image: url("../assets/img/c22.png") !important;
   }
   .min_btn:hover {
-    background-image: url("../assets/img/最小化-hover.png");
+    background-image: url("../assets/img/c33.png");
   }
   .close_btn:hover {
-    background-image: url("../assets/img/关闭-hover.png");
+    background-image: url("../assets/img/c11.png");
     cursor: pointer;
     background-color: #f10707;
   }
 
   .min_btn {
-    background-image: url("../assets/img/最小化.png");
+    background-image: url("../assets/img/c3.png");
   }
 
   .close_btn {
-    background-image: url("../assets/img/关闭.png");
+    background-image: url("../assets/img/c1.png");
   }
 }
 </style>
