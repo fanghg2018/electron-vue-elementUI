@@ -21,5 +21,6 @@ export default {
 <style lang="scss" scoped>
 main.el-main{
   padding: 0px !important;
+  margin-left: 20px;
 }
 </style>

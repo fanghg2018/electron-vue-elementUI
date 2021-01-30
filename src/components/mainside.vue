@@ -4,7 +4,7 @@
       <div class="login-image">
         <div class="block" >
             <el-image
-            style="width: 100px; height: 60px"
+            style="width: 100px; height: 80px"
             :src="url"
             fit="contain"
           ></el-image>
@@ -115,6 +115,6 @@ export default {
   background: #f1e7e6 !important;
 }
 .el-menu-vertical-demo {
-  height: calc(100vh - 125px)
+  height: calc(100vh - 145px)
 }
 </style>

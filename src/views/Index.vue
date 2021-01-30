@@ -17,7 +17,7 @@ export default {
 
 <style lang="scss" scoped>
 .mian{
-  position: relative;
+position: relative;
   .top{
     position: absolute;
     top: -20px;
