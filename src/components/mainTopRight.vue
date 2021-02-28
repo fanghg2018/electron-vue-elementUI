@@ -24,6 +24,7 @@ export default {
   data () {
     return {
       max_title: '最大化',
+      isMaximized: false,
       max_icon: require('../assets/img/c4.png')
     }
   },
@@ -33,21 +34,22 @@ export default {
       this.$router.push(key)
     },
     maximize () {
-      if (this.$win.isMaximized()) {
-        this.$win.unmaximize()
+      this.$ipcRenderer.send('window-max')
+      if (this.isMaximized) {
         this.max_title = '最大化'
         this.max_icon = require('../assets/img/c4.png')
+        this.isMaximized = false
       } else {
-        this.$win.maximize()
         this.max_title = '向下还原'
         this.max_icon = require('../assets/img/c2.png')
+        this.isMaximized = true
       }
     },
     minimize () {
-      this.$win.minimize()
+      this.$ipcRenderer.send('window-min')
     },
     close () {
-      this.$win.hide()
+      this.$ipcRenderer.send('window-close')
     }
   }
 }
