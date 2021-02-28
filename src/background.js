@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 'use strict'
 
-import { app, protocol, BrowserWindow, Tray, Menu } from 'electron'
+import { app, protocol, BrowserWindow, Tray, Menu, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 // import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -14,7 +14,7 @@ protocol.registerSchemesAsPrivileged([
 ])
 
 async function createWindow () {
-// 创建窗口。
+  // 创建窗口。
   win = new BrowserWindow({
     width: 800,
     height: 600,
@@ -39,16 +39,16 @@ async function createWindow () {
 
 // 关闭所有窗口后退出。
 app.on('window-all-closed', () => {
-// 在macOS上，应用程序及其菜单栏很常见
-// 保持活动状态，直到用户使用Cmd + Q明确退出为止
+  // 在macOS上，应用程序及其菜单栏很常见
+  // 保持活动状态，直到用户使用Cmd + Q明确退出为止
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', () => {
-// 在macOS上，通常会在应用程序重新创建窗口时
-// 单击dock图标，没有其他窗口打开。
+  // 在macOS上，通常会在应用程序重新创建窗口时
+  // 单击dock图标，没有其他窗口打开。
   if (BrowserWindow.getAllWindows().length === 0) createWindow()
 })
 
@@ -93,12 +93,32 @@ app.on('ready', async () => {
     }
   ])
 
-  tray.on('click', () => { win.isVisible() ? win.hide() : win.show() })
+  tray.on('click', () => {
+    win.isVisible() ? win.hide() : win.show()
+  })
   tray.setToolTip('测试气泡提示文字')
   tray.setContextMenu(contextMenu)
 })
 
-// 限制只能开启一个应用(4.0以上版本)
+// 窗口控制
+// 接收最小化命令
+ipcMain.on('window-min', function () {
+  win.minimize()
+})
+// 接收最大化命令
+ipcMain.on('window-max', function () {
+  if (win.isMaximized()) {
+    win.restore()
+  } else {
+    win.maximize()
+  }
+})
+// 接收关闭命令
+ipcMain.on('window-close', function () {
+  win.close()
+})
+
+// 只运行一个程序
 const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
   app.quit()
@@ -116,7 +136,7 @@ if (!gotTheLock) {
 // 在开发模式下，应主进程的要求完全退出。
 if (isDevelopment) {
   if (process.platform === 'win32') {
-    process.on('message', (data) => {
+    process.on('message', data => {
       if (data === 'graceful-exit') {
         app.quit()
       }
